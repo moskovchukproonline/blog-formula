@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>ДНК вашего блога — Анастасия Московчук</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: radial-gradient(circle at 0% 0%, #dce1e6, #76b2e4, #1c1c2d);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* Технологические шестигранники */
+        .hex-bg {
+            position: fixed;
+            opacity: 0.12;
+            pointer-events: none;
+            z-index: 0;
+            font-size: 120px;
+            user-select: none;
+        }
+        .hex1 { top: 20px; right: 20px; transform: rotate(15deg); }
+        .hex2 { bottom: 20px; left: 20px; transform: rotate(-10deg); }
+
+        .widget {
+            max-width: 680px;
+            width: 100%;
+            background: rgba(28, 28, 45, 0.55);
+            backdrop-filter: blur(12px);
+            border-radius: 48px;
+            padding: 32px 28px 42px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(118, 178, 228, 0.3);
+            transition: all 0.3s ease;
+            color: #f1f0ec;
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo { text-align: center; margin-bottom: 20px; }
+        .logo img {
+            max-width: 220px;
+            max-height: 80px;
+            width: auto;
+            height: auto;
+        }
+
+        .name { text-align: center; margin-bottom: 8px; }
+        .name h2 { font-size: 26px; font-weight: 700; color: #f1f0ec; letter-spacing: -0.3px; }
+        .tagline-wrapper { display: flex; justify-content: center; }
+        .tagline {
+            text-align: center;
+            font-size: 16px;
+            font-weight: 400;
+            color: #dce1e6;
+            margin-bottom: 24px;
+            border-bottom: 1px solid rgba(118, 178, 228, 0.6);
+            display: inline-block;
+            padding-bottom: 6px;
+        }
+
+        /* ДНК анимация */
+        .dna-header { text-align: center; margin: 20px 0 16px 0; }
+        .rotating-dna {
+            display: inline-block;
+            animation: spinDNA 4s infinite linear;
+            font-size: 68px;
+            filter: drop-shadow(0 0 6px #76b2e4);
+        }
+        @keyframes spinDNA {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .dna-title {
+            font-size: 38px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #f1f0ec, #76b2e4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-top: 8px;
+        }
+        .subhead {
+            text-align: center;
+            font-size: 18px;
+            font-weight: 500;
+            color: #f1f0ec;
+            background: rgba(28, 28, 45, 0.6);
+            display: inline-block;
+            padding: 6px 18px;
+            border-radius: 60px;
+            margin-top: 10px;
+        }
+
+        /* Поля и блоки */
+        .form-group { margin-bottom: 20px; }
+        input {
+            width: 100%;
+            padding: 14px 18px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            background: rgba(28, 28, 45, 0.7);
+            border: 1px solid rgba(118, 178, 228, 0.6);
+            border-radius: 34px;
+            color: #f1f0ec;
+            outline: none;
+            transition: 0.2s;
+        }
+        input:focus {
+            border-color: #76b2e4;
+            box-shadow: 0 0 0 2px rgba(118, 178, 228, 0.3);
+        }
+
+        /* Чекбоксы и ссылки */
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 20px 0 15px;
+        }
+        .checkbox-group label {
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+        .checkbox-group input {
+            width: 18px;
+            height: 18px;
+            accent-color: #76b2e4;
+            margin: 0;
+        }
+        .consent-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 5px 0 20px;
+            font-size: 13px;
+        }
+        .consent-links a {
+            color: #76b2e4;
+            text-decoration: none;
+            border-bottom: 1px dotted #76b2e4;
+        }
+        .consent-links a:hover { color: #f1f0ec; border-color: #f1f0ec; }
+
+        button {
+            background: linear-gradient(95deg, #76b2e4, #4a8fc9);
+            border: none;
+            width: 100%;
+            padding: 14px;
+            font-size: 18px;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            color: #1c1c2d;
+            border-radius: 44px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        button:active { transform: scale(0.97); }
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Вопросы */
+        .question-block {
+            margin: 24px 0 20px;
+            background: rgba(28, 28, 45, 0.4);
+            backdrop-filter: blur(4px);
+            padding: 18px;
+            border-radius: 32px;
+            border: 1px solid rgba(118, 178, 228, 0.5);
+            transition: all 0.2s;
+        }
+        .question {
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 18px;
+            color: #f1f0ec;
+        }
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 28px;
+            transition: all 0.2s ease;
+        }
+        .radio-option:hover {
+            background: rgba(118, 178, 228, 0.25);
+            border-left: 3px solid #76b2e4;
+            transform: translateX(4px);
+        }
+        .radio-option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #76b2e4;
+            margin: 0;
+            flex-shrink: 0;
+        }
+        .radio-option label {
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        /* Результат */
+        .result-box {
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(8px);
+            border-radius: 32px;
+            padding: 28px 24px;
+            margin: 20px 0;
+            border-left: 6px solid #76b2e4;
+            font-size: 17px;
+            line-height: 1.45;
+        }
+        .result-box strong { color: #76b2e4; }
+        .result-buttons {
+            display: flex;
+            gap: 16px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .result-buttons button { flex: 1; font-size: 15px; padding: 12px; }
+
+        .toast-msg {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #76b2e4;
+            color: #1c1c2d;
+            padding: 10px 24px;
+            border-radius: 60px;
+            font-weight: 600;
+            z-index: 999;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="hex-bg hex1">⬡</div>
+<div class="hex-bg hex2">⬟</div>
+
+<div class="widget" id="app">
+    <div class="logo">
+        <img src="logo.png" alt="ИИ цифровая упаковка экспертов" onerror="this.onerror=null; this.src='https://placehold.co/400x120?text=logo.png';">
+    </div>
+    <div class="name"><h2>Анастасия Московчук</h2></div>
+    <div class="tagline-wrapper"><div class="tagline">превращаю контент в клиентов</div></div>
+
+    <div class="dna-header">
+        <div class="rotating-dna">🧬</div>
+        <div class="dna-title">ДНК вашего блога</div>
+        <div class="subhead">из «я стараюсь» в «деньги капают»</div>
+    </div>
+
+    <!-- Шаг 1 -->
+    <div id="stepContacts">
+        <div class="form-group"><input type="text" id="userName" placeholder="Ваше имя" autocomplete="off"></div>
+        <div class="form-group"><input type="email" id="userEmail" placeholder="Email" autocomplete="off"></div>
+
+        <div class="checkbox-group">
+            <label><input type="checkbox" id="consentPd"> Я даю согласие на обработку моих персональных данных</label>
+            <label><input type="checkbox" id="consentMail"> Я даю согласие на получение информационных рассылок</label>
+        </div>
+
+        <div class="consent-links">
+            <a href="https://moskovchukproonline.tilda.ws/consentprivacy" target="_blank">Текст согласия на обработку ПДн</a>
+            <a href="https://moskovchukproonline.tilda.ws/consentpromo" target="_blank">Текст согласия на рассылку</a>
+            <a href="https://moskovchukproonline.tilda.ws/privacypolicy" target="_blank">Политика конфиденциальности</a>
+        </div>
+
+        <button id="startQuestionsBtn" disabled>ПОЛУЧИТЬ ФОРМУЛУ ДНК</button>
+    </div>
+
+    <!-- Шаг 2: вопросы -->
+    <div id="stepQuestions" style="display: none;">
+        <div class="question-block">
+            <div class="question">1. Сколько у вас готового контента?</div>
+            <div class="radio-option"><input type="radio" name="q1" value="Ноль и ежедневный мозговой штурм"> Ноль и ежедневный мозговой штурм</div>
+            <div class="radio-option"><input type="radio" name="q1" value="Папка 'новое' на телефоне"> Папка "новое" на телефоне</div>
+            <div class="radio-option"><input type="radio" name="q1" value="Склад, не вывезти"> Склад, не вывезти</div>
+        </div>
+        <div class="question-block">
+            <div class="question">2. Как выглядит ваш блог сейчас?</div>
+            <div class="radio-option"><input type="radio" name="q2" value="Эстетично"> Эстетично, как арт-проект</div>
+            <div class="radio-option"><input type="radio" name="q2" value="Душевно"> Душевно, как разговор с друзьями</div>
+            <div class="radio-option"><input type="radio" name="q2" value="Информационно и занудно"> Информационно и занудно</div>
+            <div class="radio-option"><input type="radio" name="q2" value="Свободно и дерзко"> Свободно и дерзко</div>
+        </div>
+        <div class="question-block">
+            <div class="question">3. Что беспокоит больше всего?</div>
+            <div class="radio-option"><input type="radio" name="q3" value="Низкий чек"> Низкий чек</div>
+            <div class="radio-option"><input type="radio" name="q3" value="Долгий прогрев"> Долгий прогрев</div>
+            <div class="radio-option"><input type="radio" name="q3" value="Меня не узнают"> Меня не узнают</div>
+            <div class="radio-option"><input type="radio" name="q3" value="Стыдно назвать цену"> Стыдно назвать цену</div>
+        </div>
+        <button id="getResultBtn" disabled>УЗНАТЬ ФОРМУЛУ ДНК</button>
+    </div>
+
+    <!-- Шаг 3: результат -->
+    <div id="stepResult" style="display: none;">
+        <div class="result-box" id="resultText"></div>
+        <div class="result-buttons">
+            <button id="getPdfBtn">ПОЛУЧИТЬ РАСШИФРОВКУ</button>
+            <button id="shareBtn">Поделиться результатом</button>
+        </div>
+    </div>
+</div>
+<div id="toast" class="toast-msg">✅ Скопировано!</div>
+
+<script>
+    // === НАСТРОЙКИ DASHAMAIL ===
+    const DASHAMAIL_API_KEY = "5743dbd0b692e6d0eecf4b9326adad31";
+    const DASHAMAIL_LIST_ID = "437701";
+
+    let currentUser = { name: "", email: "" };
+    let answers = { q1: "", q2: "", q3: "" };
+
+    const stepContacts = document.getElementById('stepContacts');
+    const stepQuestions = document.getElementById('stepQuestions');
+    const stepResult = document.getElementById('stepResult');
+    const startBtn = document.getElementById('startQuestionsBtn');
+    const consentPd = document.getElementById('consentPd');
+    const consentMail = document.getElementById('consentMail');
+
+    function checkStartAvailability() {
+        const nameOk = document.getElementById('userName').value.trim() !== "";
+        const emailOk = document.getElementById('userEmail').value.trim().includes('@');
+        startBtn.disabled = !(nameOk && emailOk && consentPd.checked && consentMail.checked);
+    }
+
+    document.getElementById('userName').addEventListener('input', checkStartAvailability);
+    document.getElementById('userEmail').addEventListener('input', checkStartAvailability);
+    consentPd.addEventListener('change', checkStartAvailability);
+    consentMail.addEventListener('change', checkStartAvailability);
+
+    function checkQuestionsReady() {
+        const q1ok = document.querySelector('input[name="q1"]:checked') !== null;
+        const q2ok = document.querySelector('input[name="q2"]:checked') !== null;
+        const q3ok = document.querySelector('input[name="q3"]:checked') !== null;
+        document.getElementById('getResultBtn').disabled = !(q1ok && q2ok && q3ok);
+    }
+    document.querySelectorAll('input[name="q1"], input[name="q2"], input[name="q3"]').forEach(r => r.addEventListener('change', checkQuestionsReady));
+
+    function getFirstAction(problem) {
+        switch(problem) {
+            case "Низкий чек": return "Разбейте прайс на 3 уровня: Лёгкий → Базовый → Премиум";
+            case "Долгий прогрев": return "Создайте трипвайер за 300–500₽, чтобы прогревать через покупку";
+            case "Меня не узнают": return "Снимите 3 ролика про вашу экспертность без пользы — только про себя";
+            case "Стыдно назвать цену": return "Напишите пост-кейс с цифрами: было → стало → цена";
+            default: return "Начните с самого малого шага: опубликуйте 1 пост о своём опыте";
+        }
+    }
+
+    startBtn.addEventListener('click', () => {
+        currentUser.name = document.getElementById('userName').value.trim();
+        currentUser.email = document.getElementById('userEmail').value.trim();
+        if(!currentUser.name || !currentUser.email || !consentPd.checked || !consentMail.checked) return;
+        stepContacts.style.display = 'none';
+        stepQuestions.style.display = 'block';
+    });
+
+    document.getElementById('getResultBtn').addEventListener('click', () => {
+        const q2Radio = document.querySelector('input[name="q2"]:checked');
+        const q3Radio = document.querySelector('input[name="q3"]:checked');
+        if(!q2Radio || !q3Radio) return;
+        answers.q2 = q2Radio.value;
+        answers.q3 = q3Radio.value;
+
+        let q2short = "";
+        switch(answers.q2) {
+            case "Эстетично": q2short = "Эстет"; break;
+            case "Душевно": q2short = "Душевный"; break;
+            case "Информационно и занудно": q2short = "Зануда"; break;
+            case "Свободно и дерзко": q2short = "Дерзкий"; break;
+            default: q2short = answers.q2;
+        }
+        const typeDisplay = `${q2short} с ${answers.q3}`;
+        const action = getFirstAction(answers.q3);
+
+        const resultHtml = `
+            <div style="font-size: 26px; font-weight: 800; margin-bottom: 20px;">🧬 Ваша формула ДНК</div>
+            <div style="font-size: 20px; margin: 20px 0;"><span style="color:#76b2e4; font-weight:700;">${currentUser.name}</span>, в ДНК вашего блога обнаружен ген:</div>
+            <div style="font-size: 34px; font-weight: 800; line-height: 1.2; margin-bottom: 30px; background: linear-gradient(135deg,#f1f0ec,#76b2e4); -webkit-background-clip:text; background-clip:text; color:transparent;">«${typeDisplay}»</div>
+            <div style="border-top: 1px solid #76b2e4; padding-top: 20px; margin-top: 6px;">
+                <strong style="font-size: 20px;">🔬 Обезвредить этот ген можно:</strong><br>
+                <span style="font-size: 19px; font-weight:600; display:inline-block; margin-top: 12px; background:rgba(118,178,228,0.2); padding:6px 16px; border-radius:40px;">${action}</span>
+            </div>
+            <div style="margin-top: 30px; font-size: 16px; background: rgba(0,0,0,0.25); padding: 12px; border-radius: 28px;">
+                📧 Полную формулу вашего блога получите на почте в течение 15 минут (проверьте папку Спам)
+            </div>
+        `;
+        document.getElementById('resultText').innerHTML = resultHtml;
+        stepQuestions.style.display = 'none';
+        stepResult.style.display = 'block';
+    });
+
+    // ОТПРАВКА В DASHAMAIL (рабочий fetch)
+    function sendToDashaMail(email, name) {
+        const formData = new URLSearchParams();
+        formData.append('api_key', DASHAMAIL_API_KEY);
+        formData.append('list_id', DASHAMAIL_LIST_ID);
+        formData.append('email', email);
+        formData.append('name', name);
+
+        return fetch('https://api.dashamail.ru/subscriber/add', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: formData
+        }).then(response => response.json()).catch(e => console.warn(e));
+    }
+
+    document.getElementById('getPdfBtn').addEventListener('click', () => {
+        if(currentUser.email) {
+            sendToDashaMail(currentUser.email, currentUser.name).then(() => {
+                alert("✅ Расшифровка отправлена на почту! Проверьте папку 'Спам', если не пришло через 15 минут.");
+            }).catch(() => alert("Не удалось отправить, но данные сохранены. Свяжитесь со мной напрямую."));
+        } else {
+            alert("Email не найден, попробуйте заново.");
+        }
+    });
+
+    // Поделиться
+    const shareBtn = document.getElementById('shareBtn');
+    const toast = document.getElementById('toast');
+    shareBtn.addEventListener('click', () => {
+        const link = window.location.href;
+        const text = `🧬 Узнал(а) ДНК своего блога! Из «я стараюсь» в «деньги капают». Пройди тест → ${link}`;
+        navigator.clipboard.writeText(text).then(() => {
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 2000);
+        });
+    });
+</script>
+</body>
+</html>
